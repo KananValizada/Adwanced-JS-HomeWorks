@@ -126,6 +126,28 @@ function Hamburger(size, stuffing) {
         throw new HamburgerException("Incorrect topping value!");
     }
   };
+  Hamburger.prototype.checkSize =function(size){
+    switch (size.price) {
+      case 50:
+        return Hamburger.SIZE_SMALL;
+      case 100:
+        return Hamburger.SIZE_LARGE;
+      default:
+        throw new HamburgerException("Incorrect size value!");
+    }
+  }
+  Hamburger.prototype.checkStuffing =function(stuffing){
+    switch (stuffing.price) {
+      case 10:
+        return Hamburger.STUFFING_CHEESE;
+      case 20:
+        return Hamburger.STUFFING_SALAD;
+      case 15:
+        return Hamburger.STUFFING_POTATO;
+      default:
+        throw new HamburgerException("Incorrect stuffing value!");
+    }
+  }
   
   /**
    * Find out the size of the Hamburger
@@ -142,7 +164,7 @@ function Hamburger(size, stuffing) {
   Hamburger.prototype.getStuffing = function () {
     /* implement Hamburger.prototype.checkStuffing(),
     * to be responsible for turn 'salad' into Hamburger.STUFFING_SALAD object */
-    return this.checkStuffing(this.size);
+    return this.checkStuffing(this.stuffing);
   };
   
   /**
@@ -150,6 +172,9 @@ function Hamburger(size, stuffing) {
    * @return {Number} the number of price in AZN
    */
   Hamburger.prototype.calculatePrice = function () {
+    console.log(this.getToppings())
+    return [this.size, this.stuffing,...this.getToppings()].reduce((sum, item) => sum + item.price, 0);
+    // return this.size.price +this.stuffing.price+
   //  get size and price of it
   //  +
   //  get stuffing and price of it
@@ -164,6 +189,7 @@ function Hamburger(size, stuffing) {
   
   Hamburger.prototype.calculateCalories = function () {
     /*same implementation, as for previous method*/
+    return [this.size, this.stuffing,...this.getToppings()].reduce((sum, item) => sum + item.cal, 0);
   };
   
   /**
@@ -190,7 +216,7 @@ function Hamburger(size, stuffing) {
   hamburger.addTopping("spice");
   
   console.log("added spice");
-  console.table(hamburger.getToppingNames());
+  console.table(hamburger.getToppings());
   
   hamburger.removeTopping("spice");
   
@@ -201,4 +227,13 @@ function Hamburger(size, stuffing) {
   
   console.log("spice removed again");
   console.table(hamburger.getToppingNames());
+console.log(hamburger)
+  console.log("small sized ");
+  console.table(hamburger.getSize()===Hamburger.SIZE_SMALL);
+  console.log("get stuff");
+  console.table(hamburger.getStuffing());
+  console.table(hamburger.calculatePrice());
+  console.table(hamburger.calculateCalories())
+  
+
   
